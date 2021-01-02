@@ -21,57 +21,7 @@ let weather = {
   }
 };
 
-/* 
-let city = prompt("What's your city?");
-city = city.toLowerCase().trim();
 
-if (weather[city] !== undefined) {
-  let temperature = weather[city].temp;
-  let humidity = weather[city].humidity;
-  let celsiusTemperature = Math.round(temperature);
-  let fahrenheitTemperature = Math.round((temperature * 9) / 5 + 32);
-
-  console.log(
-    `It is currently ${celsiusTemperature}°C (${fahrenheitTemperature}°F) in ${city} with humidity of ${humidity}`
-  );
-} else {
-  console.log(
-    "Sorry we don't know the weather for " +
-      city +
-      ",try going to https://www.google.com/search?q=weather+" +
-      city
-  );
-}
-
-function formatDate(date) {
-  /*let currentDate = new Date();*/
-/*console.log(currentDate);*/
-
-//let days = [
-//"Sunday",
-// "Monday",
-// "Tuesday",
-// "Wednesday",
-//"Thursday",
-//"Friday",
-//"Saturday"
-//];
-//let currentDay = days[date.getDay()];
-/*console.log(currentDay);*/
-
-//let currentHour = date.getHours();
-//if (currentHour < 10) {
-// currentHour = `0${currentHour}`;
-//}
-//let currentMinutes = date.getMinutes();
-//if (currentMinutes < 10) {
-//  currentMinutes = `0${currentMinutes}`;
-//}
-//console.log(currentHour);
-//console.log(currentMinutes);
-
-//  return `${currentDay} ${currentHour}:${currentMinutes}`;
-//}
 
 // Search
 function showTemperature(response) {
@@ -88,6 +38,62 @@ function showTemperature(response) {
   iconElement.setAttribute("alt", `${description}`);
   currentTemp.innerHTML = `${searchInputTemperature}`;
 }
+function formatDate(timestamp) {
+  let date = new Date(timestamp);
+console.log(currentDate);
+
+let days = [
+"Sunday",
+ "Monday",
+"Tuesday",
+ "Wednesday",
+"Thursday",
+"Friday",
+"Saturday"
+];
+let day = days[date.getDay()];
+return `${day} ${formatHours(timestamp)} `;
+}
+
+function formatHours(timestamp){
+  let date = new Date(timestamp);
+  let hours = date.getHours();
+if (hours < 10) { hours = `0${hours}`;}
+let minutes = date.getMinutes();
+if (minutes < 10) {
+  minutes = `0${minutes}`;}
+return ` ${hours}:${minutes}`;
+}
+
+function displayForecast(response){
+  let forecastElement = document.querySelector("#forecast");
+  forecastElement.innerHTML = null;
+  let forecast = null;
+  
+  for (let index = 0; index < 6; index++) {
+    
+    forecast = response.data.list[index];
+    forecastElement.innerHTML += `
+    <div class="col-2">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Tueday</h5>
+                <p>${formatHours(forecast.dt * 1000)}</p>
+                <p class="card-text">
+                  <img src="http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png" alt="" />
+                  <br />
+  
+                  ${Math.round(forecast.main.temp_max)} ° <span class="grayed-out"> ${Math.round(forecast.main.temp_min)}° </span>
+                </p>
+              </div>
+            </div>
+          </div>
+    `;
+    
+  }
+
+  
+}
 // in the Git clean up code by refactoring it
 function searchCity(city) {
   // like this below and moving this to showTemp function so it flows easily & makes a lot of sense
@@ -96,6 +102,9 @@ function searchCity(city) {
   let units = "metric";
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
   axios.get(apiUrl).then(showTemperature);
+
+  apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=${units}`;
+  axios.get(apiUrl).then(displayForecast);
 }
 function search(event) {
   event.preventDefault();
@@ -184,55 +193,4 @@ fahrenheit.addEventListener("click", changeToFahrenehit);
 
 celsius.addEventListener("click", changeToCelsius);
 
-/* If time equal greater than 12 p.m. or less than ... 
-
-let time = `${currentDay} ${currentHour}:${currentMinutes} a.m. `;
-
-if (currentMinutes < 12) {
-${aMPm} = "a.m.";
-} else {
-  ${aMPm} = "p.m."
-}
-##################
-let aMPm = "";
-
-if (currentMinutes <= 12) {
-  let aMPm = "a.m.";
-  } else {
-    let aMPm = "p.m.";
-  }
-
-
-
-*/
-
-/*console.log(weather);
-
-let city = prompt("What's your city?");
-
-if (city === weather) {
-  console.log(`Temperature for `);
-}
-
-console.log(
-  `It is currently 19°C (66°F) in (Paris["temp"]) with a humidity of (Paris["humidity"])%`
-); */
-
-/* 
-(paris.Math.round[temp])
-
-*/
-
-/*
-
-function showWeather(city) {
-  alert(`Temperature on ${city} is 18 degrees`);
-}
-
-weather.forEach(city);
-
-function showTemperature(day) {
-  alert(`Temperature on ${day} is 18 degrees`);
-}
-
-weekDays.forEach(showTemperature); */
+ 
