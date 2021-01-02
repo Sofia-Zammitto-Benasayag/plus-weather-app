@@ -76,12 +76,16 @@ function formatDate(date) {
 // Search
 function showTemperature(response) {
   console.log(response.data.main.temp);
-  //let h1 = document.querySelector("h1");
   let currentTemp = document.querySelector("#temp");
   let searchInputTemperature = Math.round(response.data.main.temp);
-  //let searchInputCity = document.querySelector("#search-input");
 
-  //h1.innerHTML = `${searchInputCity}`;
+  let description = response.data.weather[0].description;
+  document.querySelector("h3").innerHTML = `${description}`;
+ 
+  let iconElement = document.querySelector("#icon");
+  let icon = response.data.weather[0].icon;
+  iconElement.setAttribute("src", `http://openweathermap.org/img/wn/${icon}@2x.png`);
+  iconElement.setAttribute("alt", `${description}`);
   currentTemp.innerHTML = `${searchInputTemperature}`;
 }
 // in the Git clean up code by refactoring it
