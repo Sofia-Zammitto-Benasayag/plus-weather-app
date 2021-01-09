@@ -61,6 +61,16 @@ h3 {
 .current-temperature {
   margin: 20px;
 }
+
+.current-temperature .active {
+  color: rgb(33, 33, 33);
+  cursor: default;
+}
+
+.current-temperature .active:hover {
+  text-decoration: none;
+}
+
 .weekly-weather {
   margin: 20px;
 }
