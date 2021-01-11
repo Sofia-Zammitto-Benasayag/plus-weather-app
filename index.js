@@ -1,30 +1,17 @@
-let weather = {
-  paris: {
-    temp: 19.7,
-    humidity: 80
-  },
-  tokyo: {
-    temp: 17.3,
-    humidity: 50
-  },
-  lisbon: {
-    temp: 30.2,
-    humidity: 20
-  },
-  "san francisco": {
-    temp: 20.9,
-    humidity: 100
-  },
-  moscow: {
-    temp: -5,
-    humidity: 20
-  }
-};
-
-
 
 // Search
 function showTemperature(response) {
+  console.log(response);
+
+  let humidityElement = response.data.main.humidity;
+  document.querySelector("#humidity").innerHTML = `Humidity: ${humidityElement}%`;
+
+  let windElement = Math.round(response.data.wind.speed);
+  document.querySelector("#wind").innerHTML = `Wind: ${windElement} km/h`;
+
+  let feelslikeElement = Math.round(response.data.main.feels_like);
+  document.querySelector("#feels-like").innerHTML = `Feels like: ${feelslikeElement}`;
+
   console.log(response.data.main.temp);
   celsiusTemperature = response.data.main.temp;
   let currentTemp = document.querySelector("#temperature");
@@ -78,7 +65,6 @@ function displayForecast(response){
     <div class="col-2">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Tueday</h5>
                 <p>${formatHours(forecast.dt * 1000)}</p>
                 <p class="card-text">
                   <img src="http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png" alt="" />
@@ -95,9 +81,8 @@ function displayForecast(response){
 
   
 }
-// in the Git clean up code by refactoring it
+
 function searchCity(city) {
-  // like this below and moving this to showTemp function so it flows easily & makes a lot of sense
   document.querySelector("h1").innerHTML = `${city}`;
   let apiKey = "f06bbc0616bd3ef71eb9f587864f4a58";
   let units = "metric";
@@ -109,14 +94,8 @@ function searchCity(city) {
 }
 function search(event) {
   event.preventDefault();
-  //let city = document.querySelector("h1");
-  //city.innerHTML = `${searchInput.value}`;
-  //let h1 = document.querySelector("h1");
   let city = document.querySelector("#search-input").value;
   searchCity(city);
-  //let searchInputCity = document.querySelector("#search-input");
-  //let city = `${searchInputCity.value}`;
-  //h1.innerHTML = `${city}`;
 }
 
 
@@ -124,6 +103,18 @@ function search(event) {
 // Current Location
 function showCurrentLocationTemp(reply) {
   console.log(reply);
+
+  let currentHumidity = reply.data.main.humidity;
+  document.querySelector("#humidity").innerHTML = `Humidity: ${currentHumidity}%`;
+
+  let currentWind = Math.round(reply.data.wind.speed);
+  document.querySelector("#wind").innerHTML = `Wind: ${currentWind} km/h`;
+
+  let currentFeelslike = Math.round(reply.data.main.feels_like);
+  document.querySelector("#feels-like").innerHTML = `Feels like: ${currentFeelslike}`;
+
+
+
   let currentLocationTemp = Math.round(reply.data.main.temp);
   let currentLocationCity = reply.data.name;
   let currentCity = document.querySelector("h1");
@@ -131,7 +122,7 @@ function showCurrentLocationTemp(reply) {
   let currentDescription = reply.data.weather[0].description;
   let description = document.querySelector("h3");
   description.innerHTML = `${currentDescription}`;
-  let currentTemp = document.querySelector("#temp");
+  let currentTemp = document.querySelector("#temperature");
   currentTemp.innerHTML = `${currentLocationTemp}`;
 }
 function position(currentPosition) {
